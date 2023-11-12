@@ -1,0 +1,127 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib
+
+from ghimo.geometry import Circle, Rectangle, Line, Lines
+
+class GraphicsHandler:
+    def __init__(self):
+        pass
+
+    def add_object(self, obj):
+        pass
+
+    def set_objects(self, objs):
+        pass
+
+    def update_object(self, name, objdef):
+        pass
+
+
+class MatplotlibGraphicsHandler(GraphicsHandler):
+    def __init__(self, ax):
+        self.ax = ax
+        self.objs = {}
+        self.mpl_patches = {}
+        self.ax.set_aspect('equal')
+        #self.ax.set_xlim([-10, 10])
+        #self.ax.set_ylim([-10, 10])
+        self.ax.set_xticks(np.arange(-10.0, 11.0, 2))
+        self.ax.set_yticks(np.arange(-10.0, 11.0, 2))
+        self.ax.grid(color='gray', ls='--', lw=0.5)
+
+    def set_objects(self, objs):
+        self.objs = {}
+        for obj in objs:
+            self.add_object(obj)
+
+    def add_object(self, obj):
+        self.objs[obj['id']] = obj
+        patch = None
+        if isinstance(obj, Circle):
+            patch = matplotlib.patches.Circle((obj['cx'], obj['cy']), obj['r'])
+            props = {}
+            if 'layer' in obj.keys():
+                if obj['layer'] == 'obstacles':
+                    props = {'fc': 'black', 'ec': 'black', 'lw': 1.0, 'ls': '-'}
+            props.update({k: v for k, v in obj.items() if k in ['fc', 'ec', 'lw', 'ls']})
+            patch.update(props)
+        if isinstance(obj, Rectangle):
+            patch = matplotlib.patches.Rectangle((obj['left'], obj['top']), obj['right'] - obj['left'], obj['bottom'] - obj['top'])
+            props = {}
+            if 'layer' in obj.keys():
+                if obj['layer'] == 'obstacles':
+                    props = {'fc': 'black', 'ec': 'black', 'lw': 1.0, 'ls': '-'}
+                if obj['layer'] == 'goal':
+                    props = {'fc': 'limegreen', 'ec': 'limegreen', 'lw': 0.0}
+            props.update({k: v for k, v in obj.items() if k in ['fc', 'ec', 'lw', 'ls']})
+            patch.update(props)
+        if isinstance(obj, Line):
+            xys = obj['xys']
+            if len(xys.shape) == 2:
+                patch = matplotlib.lines.Line2D(xys[:, 0], xys[:, 1])
+            else:
+                patch = matplotlib.lines.Line2D([], [])
+            props = {}
+            if 'layer' in obj.keys():
+                if obj['layer'] == 'obstacles':
+                    props = {'fc': 'black', 'ec': 'black', 'lw': 1.0, 'ls': '-'}
+                if obj['layer'] == 'goal':
+                    props = {'fc': 'limegreen', 'ec': 'limegreen', 'lw': 0.0}
+            props.update({k: v for k, v in obj.items() if k in ['c', 'lw', 'ls']})
+            patch.update(props)
+        if isinstance(obj, Lines):
+            lines_xys = obj['lines_xys']
+            patch = matplotlib.collections.LineCollection(lines_xys)
+            props = {}
+            if 'layer' in obj.keys():
+                if obj['layer'] == 'obstacles':
+                    props = {'fc': 'black', 'ec': 'black', 'lw': 1.0, 'ls': '-'}
+                if obj['layer'] == 'goal':
+                    props = {'fc': 'limegreen', 'ec': 'limegreen', 'lw': 0.0}
+            #props.update({k: v for k, v in obj.items() if k in ['c', 'lw', 'ls']})
+            patch.update(props)
+        if patch is not None:
+            self.mpl_patches[obj['id']] = patch
+            if isinstance(obj, Line):
+                self.ax.add_line(patch)
+            elif isinstance(obj, Lines):
+                self.ax.add_collection(patch)
+            else:
+                self.ax.add_patch(patch)
+
+    def update_object(self, name, data):
+        obj = self.objs[name]
+        for k, v in data.items():
+            obj[k] = v
+
+        patch = self.mpl_patches[name]
+        if isinstance(obj, Circle):
+            if obj.is_changed(['cx', 'cy']):
+                patch.center = obj['cx'], obj['cy']
+        elif isinstance(obj, Rectangle):
+            if obj.is_changed(['left', 'top']):
+                patch.set_xy((obj['left'], obj['top']))
+            if obj.is_changed(['left', 'top', 'right', 'bottom']):
+                patch.set_width(obj['right'] - obj['left'])
+                patch.set_height(obj['bottom'] - obj['top'])
+        elif isinstance(obj, Line):
+            if obj.is_changed('xys'):
+                patch.set_xdata(obj['xys'][:, 0])
+                patch.set_ydata(obj['xys'][:, 1])
+        elif isinstance(obj, Lines):
+            if obj.is_changed('lines_xys'):
+                a = obj['lines_xys']
+                if not isinstance(a, np.ndarray):
+                    a = np.array(a)
+                print(a.shape)
+                patch.set_offsets(a)
+
+
+def trajectory_np2gfx(nptraj):
+    print(type(nptraj))
+    if isinstance(nptraj, np.ndarray):
+        print(nptraj.shape)
+    gfxtraj = {'xys': nptraj}
+    gfxtraj = {'lines_xys': nptraj}
+    return gfxtraj

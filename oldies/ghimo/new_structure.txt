@@ -1,0 +1,46 @@
+state
+
+action
+
+model
+- state, action -> new state
+- state, action -> delta state
+
+state-space structure creation
+IN: state space description
+OUT: state space description
+- e.g. PRM
+- real state -> state-space new structure -> real state
+
+trajectory/plan generator
+IN: current state / goal / state space description
+OUT: trajectory / path
+- best effort
+- optimizer
+- heuristics
+- also unfeasible ones (violates constraints)
+- constraints: obstacles / illegal states, allowed planning space
+- objective function
+- action -> new state (model)
+
+online refinement
+IN: trajectory / path
+OUT: trajectory / path
+- objective function
+- optimizer
+- update initial (current) state
+- goal change
+- constraints change (moving obstacles)
+- can be replan from scratch
+
+executor
+IN: current state / trajectory / path / goal
+OUT: action
+- plan/trajectory to action
+- constraints
+
+controller
+IN: current state / path / trajectory / goal
+OUT: action
+- filters the action given by the executor
+- constraints

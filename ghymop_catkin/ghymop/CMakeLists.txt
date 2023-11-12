@@ -1,0 +1,32 @@
+cmake_minimum_required(VERSION 2.8)
+project(Ghymop)
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+
+function(verbose_package pkg_name)
+    message(STATUS "${pkg_name}_FOUND: ${${pkg_name}_FOUND}")
+    if(${pkg_name}_FOUND)
+        message(STATUS "    ${pkg_name}_INCLUDE_DIRS: ${${pkg_name}_INCLUDE_DIRS}")
+        message(STATUS "    ${pkg_name}_LINK_DIRECTORIES: ${${pkg_name}_LINK_DIRECTORIES}")
+        message(STATUS "    ${pkg_name}_LIBRARIES: ${${pkg_name}_LIBRARIES}")
+    endif()
+endfunction()
+
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake_modules)
+#find_package(ImageMagick QUIET COMPONENTS Magick++)
+#find_package(OpenCV QUIET)
+#if(OpenCV_FOUND)
+#    list(APPEND OpenCV_DEFINITIONS "-DHAVE_OPENCV")
+#endif()
+#find_package(YAML QUIET)
+#set(YAML_CPP_FOUND "TRUE")
+#set(YAML_CPP_INCLUDE_DIRS "/usr/include")
+#set(YAML_CPP_LIBRARIES "-lyaml-cpp")
+#find_package(JSON QUIET)
+
+#if("$ENV{VERBOSE}" STREQUAL "1")
+#    verbose_package(ImageMagick) 
+#    verbose_package(OpenCV) 
+#endif()
+
+add_library(ghymop SHARED ghymop/YarnObstAvoid.cpp)

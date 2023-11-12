@@ -1,0 +1,12 @@
+<package>
+  <name>ghymop</name>
+  <version>0.1.0</version>
+  <description>ghymop is the external library providing Generic HYerarchical Motion Planners and controllers.</description>
+  <author>Daniele Calisi</author>
+  <maintainer email="calisi@algorithmica.it">Daniele Calisi</maintainer>
+  <license>GPL</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>traversability</build_depend>
+  <run_depend>traversability</run_depend>
+</package>
