@@ -1,8 +1,8 @@
 from matplotlib import pyplot as plt
-from ghimo.viewers.viewer_base import ViewerBase
+from ghimo.viewers.viewer import Viewer
 
 
-class SimpleMplViewer(ViewerBase):
+class SimpleMplViewer(Viewer):
     def __init__(self, width, height):
         plt.ion()
         self._fig, self._ax = plt.subplots()

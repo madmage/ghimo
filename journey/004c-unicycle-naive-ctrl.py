@@ -3,15 +3,16 @@ import math
 import random
 from matplotlib import pyplot as plt
 
-from ghimo.environments.environment_base import EnvironmentBase
+from ghimo.environments.environment import Environment, EnvironmentInterface
 from ghimo.viewers.unicycle_mpl_viewer import UnicycleMplViewer
+from ghimo.agent import Agent
 
 
 def angle_diff(a1, a2):
     return min(a1 - a2, a1 - a2 + 2 * math.pi, a1 - a2 - 2 * math.pi, key=abs)
 
 
-class UnicyclePlanarEnvironment(EnvironmentBase):
+class UnicyclePlanarEnvironment(Environment):
     def __init__(self):
         super().__init__()
         self.viewer = UnicycleMplViewer(10.0, 10.0)
@@ -43,37 +44,50 @@ class UnicyclePlanarEnvironment(EnvironmentBase):
         return self.viewer.render()
 
 
-class UnicycleAgent:
-    def __init__(self):
-        self.observation = None
-
-    def compute_action(self):
-        obs = self.observation
+class UnicycleAgent(Agent):
+    def step(self):
+        obs = self.environment_interface.get_observation()
         if obs is None:
-            return (random.random() * 0.5, (random.random() - 0.5) * 2.0)
+            act = (random.random() * 0.5, (random.random() - 0.5) * 2.0)
         else:
-            return (0.1, obs[1] * 0.2)
+            act = (0.1, obs[1] * 0.2)
+        self.environment_interface.set_action(act)
 
-    def set_observation(self, obs):
-        self.observation = obs
+
+def ang_diff(a0, a1):
+    return math.atan2(math.sin(a0 - a1), math.cos(a0 - a1))
+
+
+class EnvironmentNaiveInterface(EnvironmentInterface):
+    def __init__(self, environment, agent):
+        self.environment = environment
+        self.agent = agent
+
+    def set_action(self, action):
+        self.environment.agents[self.agent.name]["action"] = action
+
+    def get_observation(self):
+        goal = self.environment.agents[self.agent.name]["goal"]
+        pose = self.environment.agents[self.agent.name]["state"]
+        return (
+            math.hypot(goal[0] - pose[0], goal[1] - pose[1]),
+            ang_diff(math.atan2(goal[1] - pose[1], goal[0] - pose[0]), pose[2])
+        )
 
 
 env = UnicyclePlanarEnvironment()
-env.add_agent("unicycle", initial_state=[0, 0, 0])
+agent = UnicycleAgent("unicycle")
+
+env.add_agent(agent, initial_state=[0, 0, 0])
 env.set_agent_goal("unicycle", [2, 3, 0.5])
 env.reset()
 
-agent = UnicycleAgent()
+EnvironmentNaiveInterface.link(env, agent)
 
 while True:
     if not env.render():
         break
 
-    obs = env.get_agent_observation("unicycle")
-    agent.set_observation(obs)
-    act = agent.compute_action()
-    env.set_agent_action("unicycle", act)
-
+    agent.step()
     env.step()
 
-plt.close()

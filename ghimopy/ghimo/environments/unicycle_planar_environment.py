@@ -30,37 +30,3 @@ class UnicyclePlanarEnvironment(Environment):
         self.viewer.unicycle_pose = self.agents["unicycle"]["state"]
         return self.viewer.render()
 
-
-class EnvironmentNaiveInterface:
-    def __init__(self, environment, agent):
-        self.environment = environment
-        self.agent = agent
-
-    def set_action(self, action):
-        self.environment.agents[agent.name]["action"] = action
-
-    def get_observation(self):
-        return None
-
-
-class UnicycleAgent(Agent):
-    def step(self):
-        act = (random.random() * 0.5, (random.random() - 0.5) * 2.0)
-        self.environment_interface.set_action(act)
-
-
-env = UnicyclePlanarEnvironment()
-agent = UnicycleAgent("unicycle")
-env.add_agent(agent, initial_state=[0, 0, 0])
-interface = EnvironmentNaiveInterface(env, agent)
-agent.environment_interface = interface
-env.reset()
-
-
-while True:
-    if not env.render():
-        break
-
-    agent.step()
-    env.step()
-
