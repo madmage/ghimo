@@ -2,6 +2,7 @@
 import math
 from matplotlib import pyplot as plt
 from ghimo.environments.particles_environment import ParticlesEnvironment
+from ghimo.viewers.particles_mpl_viewer import ParticlesMplViewer
 import random
 
 
@@ -50,6 +51,9 @@ class ParticleAgent:
 
 
 env = MyParticlesEnvironment(width=10.0, height=10.0)
+viewer = ParticlesMplViewer(width=env.width, height=env.height)
+env.set_viewer(viewer)
+
 agents = {}
 for i in range(10):
     agent_name = f"agent{i:02d}"

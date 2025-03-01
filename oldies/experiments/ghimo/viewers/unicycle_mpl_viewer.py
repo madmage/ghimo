@@ -1,5 +1,5 @@
 import matplotlib as mpl
-from ghimo.viewers.simple_mpl_viewer import SimpleMplViewer
+from ghimo.viewers.mpl_viewer import SimpleMplViewer
 
 
 class UnicycleMplViewer(SimpleMplViewer):
@@ -9,6 +9,10 @@ class UnicycleMplViewer(SimpleMplViewer):
         self._mpl_goal = mpl.patches.PathPatch(mpl.path.Path([(0.5, 0.0), (0.0, 0.2), (0.0, -0.2), (0.5, 0.0)]), edgecolor="green")
         self.unicycle_pose = [0, 0, 0]
         self.goal_pose = None
+
+    def render(self) -> bool:
+        
+        super().render()
 
     def render_objects(self) -> None:
         x, y, theta = self.unicycle_pose

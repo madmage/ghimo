@@ -1,8 +1,12 @@
-class Agent:
+from abc import ABC, abstractmethod
+
+
+class Agent(ABC):
     def __init__(self, name, definition=None):
         self.name = name
         self.definition = definition
-        self.environment_interface = None
+        self.interface = None
 
+    @abstractmethod
     def step(self):
         pass

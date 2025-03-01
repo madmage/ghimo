@@ -4,7 +4,7 @@ import random
 from matplotlib import pyplot as plt
 
 from ghimo.environments.environment_base import EnvironmentBase
-from ghimo.viewers.unicycle_mpl_viewer import UnicycleMplViewer
+from ghimo.viewers.unicycles_mpl_viewer import UnicycleMplViewer
 
 
 def angle_diff(a1, a2):

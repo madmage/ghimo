@@ -1,62 +1,33 @@
 #!/usr/bin/env python3
-import sys
-import random
-from ghimo.environments.grid_environment import GridEnvironment, GridEnvironmentNaiveInterface
+from ghimo.environments.grid_environment import GridEnvironment
+from ghimo.interfaces.grid_environment_full_info_interface import GridEnvironmentFullInfoInterface
 from ghimo.viewers.grid_environment_console_viewer import GridEnvironmentConsoleViewer
-from ghimo.agent import Agent
-
-
-class GridEnvironmentGreedyAgent(Agent):
-    def __init__(self, name, definition=None):
-        self.goal = None
-        super().__init__(name, definition)
-
-    def set_goal(self, goal):
-        self.goal = goal
-
-    def step(self):
-        obs = self.environment_interface.get_observation()
-        act = self._compute_action(obs)
-        self.environment_interface.set_action(act)
-        self.environment_interface.set_agent_info({
-            "goal": self.goal,
-        })
-
-    def _compute_action(self, obs):
-        agent_position = obs["agent_position"]
-        agent_goal = self.goal
-        act = [agent_goal[0] - agent_position[0], agent_goal[1] - agent_position[1]]
-        if act[0]:
-            act[0] /= abs(act[0])
-        if act[1]:
-            act[1] /= abs(act[1])
-        return act
+from ghimo.agents.agent import Agent
 
 
 class GridEnvironmentAStarAgent(Agent):
     def __init__(self, name, definition=None):
-        self.goal = None
-        self.planner = AStarPlanner()
         super().__init__(name, definition)
-
-    def set_goal(self, goal):
-        self.goal = goal
+        self.planner = AStarPlanner()
 
     def step(self):
-        obs = self.environment_interface.get_observation()
+        obs = self.interface.get_observation()
         self.planner.set_map(obs["map"])
-        path = self.planner.plan(obs["agent_position"], self.goal)
-        act = self._compute_action(obs, path)
-        self.environment_interface.set_action(act)
-        self.environment_interface.set_agent_info({
+        path = self.planner.plan(obs["agent_position"], obs["goal"])
+        act = self._compute_action(path)
+        self.interface.set_action(act)
+        self.interface.set_agent_info({
             "path": path,
-            "goal": self.goal,
+            "goal": obs["goal"],
         })
 
-    def _compute_action(self, obs, path):
+    def _compute_action(self, path):
         print(path)
-        act = path[0][1]
-        return act
+        if len(path) == 0:
+            return [0, 0]
+        else:
+            act = path[0][1]
+            return act
 
 
 class PriorityQueue:
@@ -120,7 +91,7 @@ class AStarPlanner:
             if nstate[0] < 0 or nstate[1] < 0 or nstate[1] >= len(self.map[0]) or nstate[0] >= len(self.map):
                 continue
             #print(nstate[0], nstate[1], len(self.map[0]), len(self.map))
-            if self.map[nstate[0]][nstate[1]] == "X":
+            if self.map[nstate[0]][nstate[1]] == "1":
                 continue
 
             act_cost = abs(act[0]) + abs(act[1])
@@ -176,7 +147,7 @@ def check_path(path, check):
 
 
 p = AStarPlanner()
-p.set_map(["....", "....", "....", "...."])
+p.set_map(["0000", "0000", "0000", "0000"])
 
 tests = [
     {"init": [1, 1], "goal": [3, 3], "path": [[1, 1], [2, 2], [3, 3]]},
@@ -189,7 +160,6 @@ for test in tests:
     path = p.plan(test["init"], test["goal"])
     print(test["init"], test["goal"], path, check_path(path, test["path"]))
 
-#sys.exit(0)
 
 ENV_WIDTH = 80
 ENV_HEIGHT = 40
@@ -198,15 +168,14 @@ env.random_definition(ENV_WIDTH, ENV_HEIGHT, obstacle_probability=0.1)
 
 agent = GridEnvironmentAStarAgent("agent1")
 env.add_agent(agent)
-
-GridEnvironmentNaiveInterface.link(env, agent)
+env.set_agent_goal("agent1", [int(ENV_WIDTH / 2), int(ENV_HEIGHT / 2)])
+GridEnvironmentFullInfoInterface.link(env, agent)
 
 viewer = GridEnvironmentConsoleViewer(clear_screen=False, wait_time=1.0)
 env.set_viewer(viewer)
 
-agent.set_goal([int(ENV_WIDTH / 2), int(ENV_HEIGHT / 2)])
-
 env.reset()
-for _ in range(100000):
+
+while True:
     agent.step()
     env.step()

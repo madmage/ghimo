@@ -3,64 +3,46 @@ import math
 import random
 
 from ghimo.environments.environment import Environment
-from ghimo.agent import Agent
-from ghimo.viewers.unicycle_mpl_viewer import UnicycleMplViewer
+from ghimo.agents.agent import Agent
+from ghimo.interfaces.environment_blind_agent_interface import EnvironmentBlindAgentInterface
+from ghimo.viewers.unicycles_mpl_viewer import UnicyclesMplViewer
 
 
 class UnicyclePlanarEnvironment(Environment):
-    def __init__(self):
-        super().__init__()
-        self.viewer = UnicycleMplViewer(10.0, 10.0)
-
     def step(self):
+        super().step()
         dt = 0.1
-        for agent_name, agent in self.agents.items():
+        for agent in self.agents.values():
             if "action" in agent:
-                v, w = agent["action"]
-                x, y, theta = agent["state"]
-                xx = x + math.cos(theta) * v * dt
-                yy = y + math.sin(theta) * v * dt
-                ttheta = theta + w * dt
-                agent["state"] = xx, yy, ttheta
-
-    def get_agent_observation(self, agent_name):
-        return None
-
-    def render(self):
-        self.viewer.unicycle_pose = self.agents["unicycle"]["state"]
-        return self.viewer.render()
+                x0, y0, theta0 = agent["state"]
+                v0, w0 = agent["action"]
+                x1 = x0 + math.cos(theta0) * v0 * dt
+                y1 = y0 + math.sin(theta0) * v0 * dt
+                theta1 = theta0 + w0 * dt
+                agent["state"] = x1, y1, theta1
 
 
-class EnvironmentNaiveInterface:
-    def __init__(self, environment, agent):
-        self.environment = environment
-        self.agent = agent
-
-    def set_action(self, action):
-        self.environment.agents[agent.name]["action"] = action
-
-    def get_observation(self):
-        return None
-
-
-class UnicycleAgent(Agent):
+class RandomUnicycleAgent(Agent):
     def step(self):
         act = (random.random() * 0.5, (random.random() - 0.5) * 2.0)
-        self.environment_interface.set_action(act)
+        self.interface.set_action(act)
 
 
 env = UnicyclePlanarEnvironment()
-agent = UnicycleAgent("unicycle")
-env.add_agent(agent, initial_state=[0, 0, 0])
-interface = EnvironmentNaiveInterface(env, agent)
-agent.environment_interface = interface
+
+agent = RandomUnicycleAgent("unicycle")
+env.add_agent(agent, initial_state=[0.0, 0.0, 0.0])
+EnvironmentBlindAgentInterface.link(env, agent)
+
+viewer = UnicyclesMplViewer(10.0, 10.0)
+env.set_viewer(viewer)
+
 env.reset()
 
-
 while True:
-    if not env.render():
-        break
-
     agent.step()
     env.step()
+
+    if env.viewer.exit_requested:
+        break
 

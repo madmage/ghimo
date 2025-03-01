@@ -34,13 +34,16 @@ First detour: cellular automata
 Planar non-holonomic robot, FIXME Oriolo controller (Ghimo internal simulator)
   The non-holonomic constraints model a robot that is not able to move sideways with respect to the direction of its wheels.
   Cite Oriolo controller FIXME
+  Multi-robot with different parameters
+  NASA controller Pure Pursuit
+  Naive controller
 
 Planar non-holonomic robot, Dynamic Window Approach (Ghimo internal simulator)
   Trajectory rollout
 
 Planar car-like robot, Probabilistic RoadMap (PRM) (Ghimo internal simulator)
 
-Planar car-like robot, Rapid-exploring Random Trees (PRM) (Ghimo internal simulator)
+Planar car-like robot, Rapid-exploring Random Trees (RRT) (Ghimo internal simulator)
 
 Planar 3-links manipulator, RRT and variants (Ghimo internal simulator)
 

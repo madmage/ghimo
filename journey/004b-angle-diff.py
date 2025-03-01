@@ -22,23 +22,23 @@ TEST_CASES = [
 
 # time computation, see https://superfastpython.com/benchmark-execution-time/
 
-def ang_diff_atan2(a0, a1):
+def angle_diff_atan2(a0, a1):
     return math.atan2(math.sin(a0 - a1), math.cos(a0 - a1))
 
 
-def ang_diff_min(a0, a1):
+def angle_diff_min(a0, a1):
     return min(2 * math.pi - math.fabs(a0 - a1), math.fabs(a0 - a1))
 
 
-def ang_diff_fmod(a0, a1):
+def angle_diff_fmod(a0, a1):
     return math.fmod(a0 - a1 + math.pi, 2 * math.pi) - math.pi
 
 
-def ang_diff_min_trick(a0, a1):
+def angle_diff_min_trick(a0, a1):
     return min(a0 - a1, a0 - a1 + 2 * math.pi, a0 - a1 - 2 * math.pi, key=abs)
 
 
-for fn in [ang_diff_atan2, ang_diff_min, ang_diff_fmod, ang_diff_min_trick]:
+for fn in [angle_diff_atan2, angle_diff_min, angle_diff_fmod, angle_diff_min_trick]:
     print(f"Evaluating {fn.__name__}:")
     for test in TEST_CASES:
         t0 = time.process_time()

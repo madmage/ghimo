@@ -1,6 +1,6 @@
 import copy
 
-from ghimo.agent import Agent
+from ghimo.agents.agent import Agent
 
 
 class Environment:
@@ -21,30 +21,17 @@ class Environment:
             self.viewer.render()
 
     def reset(self) -> None:
-        pass
+        for agent in self.agents.values():
+            agent["state"] = copy.deepcopy(agent["initial_state"])
 
-    def add_agent(self, agent: Agent, initial_state) -> None:
+    def add_agent(self, agent: Agent, initial_state=None) -> None:
         self.agents[agent.name] = {
+            "agent": agent,
             "initial_state": copy.deepcopy(initial_state),
             "state": copy.deepcopy(initial_state),
             "interface": None,
             "action": None,
         }
 
-
-class EnvironmentInterface:
-    @classmethod
-    def link(cls, environment: Environment, agent: Agent) -> None:
-        interface = cls(environment, agent)
-        interface.environment.agents[agent.name]["interface"] = interface
-        interface.agent.environment_interface = interface
-
-    def __init__(self, environment: Environment, agent: Agent):
-        self.environment = environment
-        self.agent = agent
-
-    def set_agent(self, agent) -> None:
-        self.agent = agent
-
-    def set_environment(self, environment) -> None:
-        self.environment = environment
+    def get_agents(self):
+        return [agent_dict["agent"] for agent_dict in self.agents.values()]

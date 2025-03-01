@@ -27,7 +27,7 @@ class GridEnvironmentConsoleViewer(Viewer):
                         print("\033[1;34m*\033[0m", end="")
                         draw_cell=False
                 if draw_cell:
-                    print("·" if self.environment.cells[x][y] == "." else "▮", end="")
+                    print("·" if self.environment.cells[x][y] == "0" else "▮", end="")
             print("")
         print("")
         time.sleep(self.wait_time)

@@ -1,9 +1,7 @@
-from typing import Any
 import random
 
-from ghimo.environments.environment import Environment, EnvironmentInterface
-from ghimo.agent import Agent
-from ghimo.viewers.particles_mpl_viewer import ParticlesMplViewer
+from ghimo.environments.environment import Environment
+from ghimo.agents.agent import Agent
 
 
 class ParticlesEnvironment(Environment):
@@ -11,25 +9,16 @@ class ParticlesEnvironment(Environment):
         super().__init__()
         self.width = width
         self.height = height
-        self.viewer = ParticlesMplViewer(width=width, height=height)
 
-    def add_agent(self, agent : Agent, initial_state=None) -> None:
-        state = [random.random() * 0.1 - 0.05, random.random() * 0.1 - 0.05]
-        super().add_agent(agent, initial_state=state)
+    def add_agent(self, agent: Agent, initial_state=None) -> None:
+        if initial_state is None:
+            initial_state = [random.uniform(-0.05, 0.05), random.uniform(-0.05, 0.05)]
+        super().add_agent(agent, initial_state=list(initial_state))
 
     def step(self) -> None:
-        pass
-
-    def render(self) -> None:
-        self.viewer.particle_positions = []
-        for i, name in enumerate(self.agents.keys()):
-            self.viewer.particle_positions.append(self.agents[name]["state"])
-        return self.viewer.render()
-
-
-class ParticlesEnvironmentNaiveInterface(EnvironmentInterface):
-    def get_observation(self):
-        return None
-
-    def set_action(self, action):
-        self.environment.agents[self.agent.name]["action"] = action
+        super().step()
+        for p in self.agents.values():
+            if p["action"] is not None:
+                p["state"][0] += p["action"][0] * 0.01
+                p["state"][1] += p["action"][1] * 0.01
+            p["action"] = None
