@@ -20,7 +20,7 @@ importlib-metadata==4.12.0
     # via
     #   markdown
     #   mkdocs
-jinja2==3.1.2
+jinja2>=3.1.6
     # via
     #   mkdocs
     #   mkdocstrings
@@ -57,7 +57,7 @@ mkdocstrings-python==0.7.1
     # via mkdocstrings
 packaging==21.3
     # via mkdocs
-pymdown-extensions==9.5
+pymdown-extensions>=10.0
     # via mkdocstrings
 pyparsing==3.0.9
     # via packaging
@@ -77,5 +77,5 @@ urllib3==2.2.3
     # via requests
 watchdog==2.1.9
     # via mkdocs
-zipp==3.8.0
+zipp>=3.19.1
     # via importlib-metadata
