@@ -16,7 +16,7 @@ class GridEnvironmentConsoleViewer(Viewer):
                 draw_cell = True
                 for agent_name, agent in self.environment.agents.items():
                     if agent["state"][0] == x and agent["state"][1] == y:
-                        print("\033[1;96;44mA\033[0m", end="")
+                        print("\033[1;96;44mL\033[0m", end="")
                         draw_cell=False
                         break
                     if agent.get("info", None) and agent["info"].get("goal", None) and [x, y] == agent["info"]["goal"]:

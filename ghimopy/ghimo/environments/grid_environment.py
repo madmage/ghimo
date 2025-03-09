@@ -4,7 +4,10 @@ import copy
 from ghimo.environments.environment import Environment
 from ghimo.agents.agent import Agent
 
-
+# in a GridEnvironment:
+# - a state is a list [x, y]
+# - an action is a list [dx, dy] where dx and dy can be 0, -1 or 1
+# - a goal is like a state
 class GridEnvironment(Environment):
     def __init__(self):
         super().__init__()

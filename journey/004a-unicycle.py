@@ -7,8 +7,10 @@ from ghimo.agents.agent import Agent
 from ghimo.interfaces.environment_blind_agent_interface import EnvironmentBlindAgentInterface
 from ghimo.viewers.unicycles_mpl_viewer import UnicyclesMplViewer
 
-
-class UnicyclePlanarEnvironment(Environment):
+# in a UnicyclesEnvironment:
+# - a state is a list [x, y, theta], where theta is the orientation of the unicycle
+# - an action is a list [speed, job]
+class UnicycleEnvironment(Environment):
     def step(self):
         super().step()
         dt = 0.1
@@ -28,7 +30,7 @@ class RandomUnicycleAgent(Agent):
         self.interface.set_action(act)
 
 
-env = UnicyclePlanarEnvironment()
+env = UnicycleEnvironment()
 
 agent = RandomUnicycleAgent("unicycle")
 env.add_agent(agent, initial_state=[0.0, 0.0, 0.0])
@@ -39,10 +41,6 @@ env.set_viewer(viewer)
 
 env.reset()
 
-while True:
+while not env.viewer.exit_requested:
     agent.step()
     env.step()
-
-    if env.viewer.exit_requested:
-        break
-

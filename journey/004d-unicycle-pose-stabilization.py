@@ -55,7 +55,7 @@ env.set_viewer(viewer)
 
 env.reset()
 
-while True:
+while not env.viewer.exit_requested:
     agent.step()
     env.step()
 
@@ -64,6 +64,3 @@ while True:
 
     if math.hypot(goal[0] - pose[0], goal[1] - pose[1]) < 0.1 and math.fabs(angle_diff(goal[2], pose[2])) < 0.05:
         env.set_agent_goal("unicycle", [random.uniform(-4.0, 4.0), random.uniform(-4.0, 4.0), random.uniform(0.0, math.pi * 2.0)])
-
-    if env.viewer.exit_requested:
-        break

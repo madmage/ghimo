@@ -33,7 +33,5 @@ class SimpleMplViewer(Viewer):
 
 viewer = SimpleMplViewer(10.0, 10.0)
 
-while True:
+while not viewer.exit_requested:
     viewer.render()
-    if viewer.exit_requested:
-        break

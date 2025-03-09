@@ -53,7 +53,6 @@ class EnvironmentAgentInterface:
     @classmethod
     def link(cls, environment: Environment, agent: Agent) -> None:
         interface = cls(environment, agent)
-        interface.environment.agents[agent.name]["interface"] = interface
         interface.agent.interface = interface
 
     def __init__(self, agent: Agent, environment: Environment = None):
@@ -82,7 +81,6 @@ class GridEnvironment(Environment):
     def add_agent(self, agent):
         self.agents[agent.name] = {
             "state": [random.randint(0, self.width - 1), random.randint(0, self.height - 1)],
-            "interface": None,
             "action": None,
         }
 

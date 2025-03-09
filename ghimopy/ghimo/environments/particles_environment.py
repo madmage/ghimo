@@ -3,7 +3,9 @@ import random
 from ghimo.environments.environment import Environment
 from ghimo.agents.agent import Agent
 
-
+# in a ParticlesEnvironment:
+# - a state is a list [x, y] where x and y are arbitrary floats
+# - an action is a list [dx, dy] where dx and dy are arbitrary floats
 class ParticlesEnvironment(Environment):
     def __init__(self, width, height):
         super().__init__()
@@ -17,8 +19,9 @@ class ParticlesEnvironment(Environment):
 
     def step(self) -> None:
         super().step()
+        dt = 0.1
         for p in self.agents.values():
             if p["action"] is not None:
-                p["state"][0] += p["action"][0] * 0.01
-                p["state"][1] += p["action"][1] * 0.01
+                p["state"][0] += p["action"][0] * dt
+                p["state"][1] += p["action"][1] * dt
             p["action"] = None

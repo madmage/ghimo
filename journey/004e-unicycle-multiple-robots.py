@@ -53,7 +53,7 @@ env.set_viewer(viewer)
 
 env.reset()
 
-while True:
+while not env.viewer.exit_requested:
     for agent in env.get_agents():
         agent.step()
 
@@ -73,6 +73,3 @@ while True:
         for i in range(10):
             agent_name = f"unicycle{i+1:02d}"
             env.set_agent_goal(agent_name, init_pose)
-
-    if env.viewer.exit_requested:
-        break

@@ -3,7 +3,10 @@ import math
 
 from ghimo.environments.environment import Environment
 
-
+# in a UnicyclesEnvironment:
+# - a state is a list [x, y, theta], where theta is the orientation of the unicycle
+# - an action is a list [speed, job]
+# - a goal is like a state
 class UnicyclesEnvironment(Environment):
     def set_agent_goal(self, agent_name, goal):
         self.agents[agent_name]["goal"] = goal

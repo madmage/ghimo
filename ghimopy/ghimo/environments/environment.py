@@ -29,7 +29,6 @@ class Environment:
             "agent": agent,
             "initial_state": copy.deepcopy(initial_state),
             "state": copy.deepcopy(initial_state),
-            "interface": None,
             "action": None,
         }
 

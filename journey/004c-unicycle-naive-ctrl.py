@@ -2,31 +2,11 @@
 import math
 import random
 
-from ghimo.environments.environment import Environment
+from ghimo.environments.unicycles_environment import UnicyclesEnvironment
 from ghimo.agents.agent import Agent
 from ghimo.interfaces.environment_agent_interface import EnvironmentAgentInterface
 from ghimo.viewers.unicycles_mpl_viewer import UnicyclesMplViewer
 from ghimo.geometry2d import angle_diff
-
-
-class UnicyclePlanarEnvironment(Environment):
-    def __init__(self):
-        super().__init__()
-
-    def set_agent_goal(self, agent_name, goal):
-        self.agents[agent_name]["goal"] = goal
-
-    def step(self):
-        super().step()
-        dt = 0.1
-        for agent in self.agents.values():
-            if "action" in agent:
-                v, w = agent["action"]
-                x, y, theta = agent["state"]
-                xx = x + math.cos(theta) * v * dt
-                yy = y + math.sin(theta) * v * dt
-                ttheta = theta + w * dt
-                agent["state"] = xx, yy, ttheta
 
 
 class UnicycleAgent(Agent):
@@ -56,7 +36,7 @@ class UnicycleEnvironmentLocalInterface(EnvironmentAgentInterface):
         )
 
 
-env = UnicyclePlanarEnvironment()
+env = UnicyclesEnvironment()
 
 agent = UnicycleAgent("unicycle")
 env.add_agent(agent, initial_state=[0.0, 0.0, 0.0])
@@ -68,9 +48,6 @@ env.set_viewer(viewer)
 
 env.reset()
 
-while True:
+while not env.viewer.exit_requested:
     agent.step()
     env.step()
-
-    if env.viewer.exit_requested:
-        break

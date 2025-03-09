@@ -6,7 +6,6 @@ class EnvironmentAgentInterface(ABC):
     @classmethod
     def link(cls, environment: Environment, agent: Agent) -> None:
         interface = cls(environment, agent)
-        interface.environment.agents[agent.name]["interface"] = interface
         interface.agent.interface = interface
 
     def __init__(self, environment: Environment, agent: Agent):

@@ -1,4 +1,4 @@
-# Base concepts
+# Basic concepts
 
 We start this journey by defining the two main object that we are going to use
 in our experiments. Our aim is to design such objects as general as possible,
@@ -23,12 +23,20 @@ by an **environment interface** that is responsible to provide the observations
 to the agents and to communicate to the environment the actions that the agents
 want to perform.
 
+```mermaid
+graph LR
+E[environment] -- observation --> I@{shape: fork, label: interface}
+I -- observation --> A
+A[agent] -- action --> I
+I -- action --> E
+```
+
 All experiments will be performed using discrete time steps, where in each time
 step the agents are provided with their observations and return their intended
 actions, and the environment is responsible to keep track of the changes in its
 state.
 
-In pseudo-Python-code, every experiment will have this structure:
+In pseudo-Python code, every experiment will have this structure:
 
 ```
 env = AnEnvironment()
