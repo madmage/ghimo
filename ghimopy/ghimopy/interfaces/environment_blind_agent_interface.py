@@ -1,4 +1,4 @@
-from ghimo.interfaces.environment_agent_interface import EnvironmentAgentInterface
+from ghimopy.interfaces.environment_agent_interface import EnvironmentAgentInterface
 
 
 class EnvironmentBlindAgentInterface(EnvironmentAgentInterface):

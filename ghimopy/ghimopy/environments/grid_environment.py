@@ -1,8 +1,8 @@
 import random
 import copy
 
-from ghimo.environments.environment import Environment
-from ghimo.agents.agent import Agent
+from ghimopy.environments.environment import Environment
+from ghimopy.agents.agent import Agent
 
 # in a GridEnvironment:
 # - a state is a list [x, y]

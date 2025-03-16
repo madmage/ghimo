@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-from ghimo.environments.grid_environment import GridEnvironment
-from ghimo.interfaces.environment_blind_agent_interface import EnvironmentBlindAgentInterface
-from ghimo.agents.grid_environment_random_agent import GridEnvironmentRandomAgent
-from ghimo.viewers.grid_environment_console_viewer import GridEnvironmentConsoleViewer
+from ghimopy.environments.grid_environment import GridEnvironment
+from ghimopy.interfaces.environment_blind_agent_interface import EnvironmentBlindAgentInterface
+from ghimopy.agents.grid_environment_random_agent import GridEnvironmentRandomAgent
+from ghimopy.viewers.grid_environment_console_viewer import GridEnvironmentConsoleViewer
 
 ENV_WIDTH = 80
 ENV_HEIGHT = 40

@@ -1,6 +1,6 @@
 import copy
 
-from ghimo.agents.agent import Agent
+from ghimopy.agents.agent import Agent
 
 
 class Environment:

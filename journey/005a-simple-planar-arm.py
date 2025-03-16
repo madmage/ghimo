@@ -1,10 +1,10 @@
 import math
 import matplotlib as mpl
 
-from ghimo.environments.environment import Environment
-from ghimo.agents.agent import Agent
-from ghimo.viewers.mpl_viewer import MplViewer
-from ghimo.interfaces.environment_blind_agent_interface import EnvironmentBlindAgentInterface
+from ghimopy.environments.environment import Environment
+from ghimopy.agents.agent import Agent
+from ghimopy.viewers.mpl_viewer import MplViewer
+from ghimopy.interfaces.environment_blind_agent_interface import EnvironmentBlindAgentInterface
 
 
 class TwoLinksPlanarArmMplViewer(MplViewer):

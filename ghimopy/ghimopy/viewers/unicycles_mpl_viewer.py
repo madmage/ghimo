@@ -1,5 +1,5 @@
 import matplotlib as mpl
-from ghimo.viewers.mpl_viewer import MplViewer
+from ghimopy.viewers.mpl_viewer import MplViewer
 
 
 class UnicyclesMplViewer(MplViewer):

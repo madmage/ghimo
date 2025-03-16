@@ -1,5 +1,5 @@
 from matplotlib import pyplot as plt
-from ghimo.viewers.viewer import Viewer
+from ghimopy.viewers.viewer import Viewer
 
 
 class MplViewer(Viewer):

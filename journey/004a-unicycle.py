@@ -2,10 +2,10 @@
 import math
 import random
 
-from ghimo.environments.environment import Environment
-from ghimo.agents.agent import Agent
-from ghimo.interfaces.environment_blind_agent_interface import EnvironmentBlindAgentInterface
-from ghimo.viewers.unicycles_mpl_viewer import UnicyclesMplViewer
+from ghimopy.environments.environment import Environment
+from ghimopy.agents.agent import Agent
+from ghimopy.interfaces.environment_blind_agent_interface import EnvironmentBlindAgentInterface
+from ghimopy.viewers.unicycles_mpl_viewer import UnicyclesMplViewer
 
 # in a UnicyclesEnvironment:
 # - a state is a list [x, y, theta], where theta is the orientation of the unicycle

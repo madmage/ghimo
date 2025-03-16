@@ -1,5 +1,5 @@
 from matplotlib import pyplot as plt
-from ghimo.viewers.mpl_viewer import MplViewer
+from ghimopy.viewers.mpl_viewer import MplViewer
 
 
 class ParticlesMplViewer(MplViewer):

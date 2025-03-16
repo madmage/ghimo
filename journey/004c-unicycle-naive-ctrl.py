@@ -2,11 +2,11 @@
 import math
 import random
 
-from ghimo.environments.unicycles_environment import UnicyclesEnvironment
-from ghimo.agents.agent import Agent
-from ghimo.interfaces.environment_agent_interface import EnvironmentAgentInterface
-from ghimo.viewers.unicycles_mpl_viewer import UnicyclesMplViewer
-from ghimo.geometry2d import angle_diff
+from ghimopy.environments.unicycles_environment import UnicyclesEnvironment
+from ghimopy.agents.agent import Agent
+from ghimopy.interfaces.environment_agent_interface import EnvironmentAgentInterface
+from ghimopy.viewers.unicycles_mpl_viewer import UnicyclesMplViewer
+from ghimopy.geometry2d import angle_diff
 
 
 class UnicycleAgent(Agent):

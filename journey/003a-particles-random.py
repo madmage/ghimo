@@ -2,10 +2,10 @@
 import math
 import random
 
-from ghimo.environments.environment import Environment
-from ghimo.interfaces.environment_blind_agent_interface import EnvironmentBlindAgentInterface
-from ghimo.viewers.particles_mpl_viewer import ParticlesMplViewer
-from ghimo.agents.agent import Agent
+from ghimopy.environments.environment import Environment
+from ghimopy.interfaces.environment_blind_agent_interface import EnvironmentBlindAgentInterface
+from ghimopy.viewers.particles_mpl_viewer import ParticlesMplViewer
+from ghimopy.agents.agent import Agent
 
 
 class ParticlesEnvironment(Environment):

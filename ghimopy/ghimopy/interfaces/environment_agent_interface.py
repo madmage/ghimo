@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
-from ghimo.environments.environment import Environment
-from ghimo.agents.agent import Agent
+from ghimopy.environments.environment import Environment
+from ghimopy.agents.agent import Agent
 
 class EnvironmentAgentInterface(ABC):
     @classmethod

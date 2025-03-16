@@ -1,6 +1,6 @@
 from matplotlib import pyplot as plt
 import matplotlib as mpl
-from ghimo.viewers.viewer import Viewer
+from ghimopy.viewers.viewer import Viewer
 
 
 class SimpleMplViewer(Viewer):

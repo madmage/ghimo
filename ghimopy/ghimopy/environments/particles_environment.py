@@ -1,7 +1,7 @@
 import random
 
-from ghimo.environments.environment import Environment
-from ghimo.agents.agent import Agent
+from ghimopy.environments.environment import Environment
+from ghimopy.agents.agent import Agent
 
 # in a ParticlesEnvironment:
 # - a state is a list [x, y] where x and y are arbitrary floats

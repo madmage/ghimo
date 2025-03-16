@@ -1,5 +1,5 @@
 import random
-from ghimo.agents.agent import Agent
+from ghimopy.agents.agent import Agent
 
 
 class GridEnvironmentRandomAgent(Agent):

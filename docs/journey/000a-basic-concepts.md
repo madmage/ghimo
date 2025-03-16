@@ -25,7 +25,7 @@ want to perform.
 
 ```mermaid
 graph LR
-E[environment] -- observation --> I@{shape: fork, label: interface}
+E[environment] -- observation --> I[interface]
 I -- observation --> A
 A[agent] -- action --> I
 I -- action --> E
@@ -38,7 +38,7 @@ state.
 
 In pseudo-Python code, every experiment will have this structure:
 
-```
+```python
 env = AnEnvironment()
 agent = AnAgent()
 interface = AnInterface(env, agent)
@@ -50,7 +50,7 @@ while not experiment_finished():  # this could be either a predefined time or wi
 ```
 
 where the step of the agent is something like:
-```
+```python
 class AnAgent:
   def step(self):
     obs = self.env_interface.get_observation()
@@ -58,21 +58,37 @@ class AnAgent:
     self.env_interface.set_agent_action(act)
 ```
 
-Let's try to use a very simple example to become accustomed to these concepts.
-The usual first simple environment that can be used for this kind of experiments
-related to robot motion is a grid environment. A grid environment is a simplified,
-discrete representation of a space where agents navigate and make decisions.
-It is typically structured as a grid of cells, each representing a specific state.
-Agents move between cells according to defined rules, aiming to achieve specific
-goals or maximize cumulative rewards. This environment is commonly used for its
-simplicity and ease of visualization, making it ideal for testing and developing
-algorithms.
 
-For simplicity, let's start considering a grid environment with only one agent.
-The state of the environment is given by the state of the single cells, that
-can be either free or occupied by an obstacle, and the current position of the agent.
+# Installing and setting up the environment
 
-The observation provided to the agent is the full environment state (i.e. the
-state of all the cells as well as the position of the agent). The agent can
-decide at each experiment step to move one single cell up or down and a single
-cell left or right.
+In order to start playing with the steps of the journey, you have to install
+`ghimo`. The first thing to do is to download the repository:
+
+```bash
+$ git checkout https://github.com/madmage/ghimo
+```
+
+Now we have to compile it:
+
+```bash
+$ cd ghimo
+$ mkdir build
+$ cd build
+$ cmake ..
+$ make
+$ make install
+```
+
+This will first (`make`) compile `ghimo` in the `build` directory, and then
+install it in the `install` directory.
+
+The last thing to do before starting with the next step is to set up the
+environment:
+
+```bash
+$ cd ..
+$ . setup.bash
+```
+
+this latter step should be done every time you open a new shell (e.g., if
+you switch off your computer).

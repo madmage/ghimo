@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import math
 
-from ghimo.environments.environment import Environment
+from ghimopy.environments.environment import Environment
 
 # in a UnicyclesEnvironment:
 # - a state is a list [x, y, theta], where theta is the orientation of the unicycle

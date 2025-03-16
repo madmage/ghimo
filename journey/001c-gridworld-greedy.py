@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-from ghimo.environments.grid_environment import GridEnvironment
-from ghimo.interfaces.grid_environment_full_info_interface import GridEnvironmentFullInfoInterface
-from ghimo.viewers.grid_environment_console_viewer import GridEnvironmentConsoleViewer
-from ghimo.agents.agent import Agent
+from ghimopy.environments.grid_environment import GridEnvironment
+from ghimopy.interfaces.grid_environment_full_info_interface import GridEnvironmentFullInfoInterface
+from ghimopy.viewers.grid_environment_console_viewer import GridEnvironmentConsoleViewer
+from ghimopy.agents.agent import Agent
 
 
 class GridEnvironmentGreedyAgent(Agent):

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import math
 import time
+from ghimo_python import angle_diff as angle_diff_c
 
 # this has been taken from https://gist.github.com/bradphelan/7fe21ad8ebfcb43696b8
 TEST_CASES = [
@@ -38,7 +39,7 @@ def angle_diff_min_trick(a0, a1):
     return min(a0 - a1, a0 - a1 + 2 * math.pi, a0 - a1 - 2 * math.pi, key=abs)
 
 
-for fn in [angle_diff_atan2, angle_diff_min, angle_diff_fmod, angle_diff_min_trick]:
+for fn in [angle_diff_atan2, angle_diff_min, angle_diff_fmod, angle_diff_min_trick, angle_diff_c]:
     print(f"Evaluating {fn.__name__}:")
     for test in TEST_CASES:
         t0 = time.process_time()

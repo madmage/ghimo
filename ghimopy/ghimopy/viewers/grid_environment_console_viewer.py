@@ -1,5 +1,5 @@
 import time
-from ghimo.viewers.viewer import Viewer
+from ghimopy.viewers.viewer import Viewer
 
 
 class GridEnvironmentConsoleViewer(Viewer):
