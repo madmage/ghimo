@@ -1,12 +1,3 @@
-# Basic classes
-
-Let's start our journey looking at the code of the first stage of the journey:
-`000b-street.py`. Let's have a look at the first lines of the file:
-
-```python
-
-```
-
 # The "street" environment
 
 Let's start our journey with a very simple environment. This environment represents
@@ -32,3 +23,11 @@ P3 -- forward --> P4[4]
 P4 -- backward --> P3
 P3 -- ring the bell --> home
 ```
+
+We can then inherit from the basic classes to have the concrete classes for the
+street environment:
+
+```py linenums="69" title="000b-street.py"
+--8<-- "journey/000b-street.py:69:123"
+```
+
