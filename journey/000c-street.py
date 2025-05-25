@@ -16,13 +16,12 @@ class Environment:
     def add_agent(self, agent):
         self.agents[agent.name] = agent
 
-    def step(self):
-        # the derived classes should always call the super().step()
-        # *before* changing the state, so that it can show
-        # the state and the action that the agent wants to perform
-        # in that state, *before* the state changes
+    def render(self):
         if self.viewer:
             self.viewer.render()
+
+    def step(self):
+        pass
 
     def reset(self):
         pass
@@ -59,10 +58,10 @@ class EnvironmentAgentInterface:
         self.environment = environment
         self.agent = agent
 
-    def get_observation(self):
+    def observe(self):
         pass
 
-    def set_action(self, action):
+    def act(self, action):
         pass
 
 
@@ -103,18 +102,18 @@ class StreetEnvironmentConsoleViewer(Viewer):
 
 
 class StreetEnvironmentAgentInterface(EnvironmentAgentInterface):
-    def get_observation(self):
+    def observe(self):
         return ["home"] if self.environment.agents[agent.name]["state"][0] == self.environment.home else ["street"]
 
-    def set_action(self, action):
+    def act(self, action):
         self.environment.agents[agent.name]["action"] = action
 
 
 class StreetEnvironmentAgent(Agent):
     def step(self):
-        obs = self.interface.get_observation()
+        obs = self.interface.observe()
         act = self._compute_action(obs)
-        self.interface.set_action(act)
+        self.interface.act(act)
 
     def _compute_action(self, obs):
         if obs[0] == "home":
@@ -133,7 +132,7 @@ viewer = StreetEnvironmentConsoleViewer(wait_time=0.5)
 env.set_viewer(viewer)
 
 env.reset()
-
 while True:
     agent.step()
+    env.render()
     env.step()

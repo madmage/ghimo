@@ -9,10 +9,10 @@ from ghimopy.agents.agent import Agent
 
 
 class ParticlesDirectionAndSpeedInterface(EnvironmentBlindAgentInterface):
-    def set_action(self, action):
+    def act(self, action):
         self.environment.agents[self.agent.name]["action"] = [action[0] * math.cos(action[1]), action[0] * math.sin(action[1])]
 
-    def get_observation(self):
+    def observe(self):
         agent = self.environment.agents[self.agent.name]
         min_dist = None
         min_agent = None
@@ -38,7 +38,7 @@ class RunAndTumbleParticleAgent(Agent):
             self.direction = random.uniform(0, math.pi * 2)
         act = [1.0, self.direction]
         self.run_steps -= 1
-        self.interface.set_action(act)
+        self.interface.act(act)
 
 
 env = ParticlesEnvironment(width=30.0, height=30.0)
@@ -53,7 +53,6 @@ viewer = ParticlesMplViewer(width=env.width, height=env.height)
 env.set_viewer(viewer)
 
 env.reset()
-
 while not env.viewer.exit_requested:
     for agent in env.get_agents():
         agent.step()

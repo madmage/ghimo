@@ -13,11 +13,11 @@ a slightly different (or more optimized) version of what we saw previously.
 ## The Environment class
 
 Let's start our journey looking at the code of the first stage of the journey:
-`000b-street.py`. Let's have a look at the first lines of the file, where we
+`000c-street.py`. Let's have a look at the first lines of the file, where we
 start creating the base classes:
 
-```python linenums="6" title="000b-street.py - the Environment base class"
---8<-- "journey/000b-street.py:6:28"
+```python linenums="6" title="000c-street.py - the Environment base class"
+--8<-- "journey/000c-street.py:6:28"
 ```
 
 An Environment in Ghimo is the object with which the Agent is interacting. In
@@ -55,8 +55,8 @@ The main functions of an Environment are listed in the above code:
 After we create the classes inheriting from Ghimo's basic classes, the main
 loop becomes very simple:
 
-```py linenums="126" title="000b-street.py - the main loop"
---8<-- "journey/000b-street.py:126:"
+```py linenums="126" title="000c-street.py - the main loop"
+--8<-- "journey/000c-street.py:126:"
 ```
 
 It is important to notice that Agent also has a `step()` function, where it
@@ -70,8 +70,8 @@ to take their decisions) *before* the state changes.
 
 ## The Agent class
 
-```py linenums="30" title="000b-street.py - the Agent base class"
---8<-- "journey/000b-street.py:30:38"
+```py linenums="30" title="000c-street.py - the Agent base class"
+--8<-- "journey/000c-street.py:30:38"
 ```
 
 The skeleton Agent class is very simple, it just has a `step()` function, where
@@ -82,13 +82,13 @@ Interface methods (see below).
 
 ## The Viewer class
 
-```py linenums="40" title="000b-street.py - the Agent base class"
---8<-- "journey/000b-street.py:40:49"
+```py linenums="40" title="000c-street.py - the Agent base class"
+--8<-- "journey/000c-street.py:40:49"
 ```
 
 ## The Environment <-> Agent Interface
 
 
-```py linenums="51" title="000b-street.py - the Agent base class"
---8<-- "journey/000b-street.py:51:66"
+```py linenums="51" title="000c-street.py - the Agent base class"
+--8<-- "journey/000c-street.py:51:66"
 ```

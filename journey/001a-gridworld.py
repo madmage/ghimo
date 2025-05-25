@@ -2,68 +2,11 @@
 import random
 import time
 import copy
+from ghimopy.environments.environment import Environment
 
-
-class Environment:
-    def __init__(self):
-        self.agents = {}
-        self.viewer = None
-
-    def set_viewer(self, viewer):
-        viewer.set_environment(self)
-        self.viewer = viewer
-
-    def add_agent(self, agent):
-        self.agents[agent.name] = agent
-
-    def step(self):
-        # the derived classes should always call the super().step()
-        # *before* changing the state, so that it can show
-        # the state and the action that the agent wants to perform
-        # in that state, *before* the state changes
-        if self.viewer:
-            self.viewer.render()
-
-    def reset(self):
-        pass
-
-
-class Agent:
-    def __init__(self, name, definition=None):
-        self.name = name
-        self.definition = definition
-        self.interface = None
-
-    def step(self):
-        pass
-
-
-class Viewer:
-    def __init__(self):
-        self.environment = None
-
-    def set_environment(self, environment):
-        self.environment = environment
-
-    def render(self):
-        pass
-
-
-class EnvironmentAgentInterface:
-    @classmethod
-    def link(cls, environment: Environment, agent: Agent) -> None:
-        interface = cls(environment, agent)
-        interface.agent.interface = interface
-
-    def __init__(self, agent: Agent, environment: Environment = None):
-        self.environment = environment
-        self.agent = agent
-
-    def get_observation(self):
-        pass
-
-    def set_action(self, action):
-        pass
+from ghimopy.agents.agent import Agent
+from ghimopy.viewers.viewer import Viewer
+from ghimopy.interfaces.environment_agent_interface import EnvironmentAgentInterface
 
 
 class GridEnvironment(Environment):
@@ -79,10 +22,8 @@ class GridEnvironment(Environment):
             self.cells.append(row)
 
     def add_agent(self, agent):
-        self.agents[agent.name] = {
-            "state": [random.randint(0, self.width - 1), random.randint(0, self.height - 1)],
-            "action": None,
-        }
+        super().add_agent(agent)
+        self.agents[agent.name]["initial_state"] = [random.randint(0, self.width - 1), random.randint(0, self.height - 1)]
 
     def step(self):
         super().step()
@@ -131,18 +72,18 @@ class EnvironmentBlindAgentInterface(EnvironmentAgentInterface):
         self.environment = environment
         self.agent = agent
 
-    def get_observation(self):
+    def observe(self):
         return None
 
-    def set_action(self, action):
+    def act(self, action):
         self.environment.agents[agent.name]["action"] = action
 
 
 class GridEnvironmentRandomAgent(Agent):
     def step(self):
-        obs = self.interface.get_observation()
+        obs = self.interface.observe()
         act = self._compute_action(obs)
-        self.interface.set_action(act)
+        self.interface.act(act)
 
     def _compute_action(self, obs):
         return (random.randint(-1, 1), random.randint(-1, 1))
@@ -161,7 +102,6 @@ viewer = GridEnvironmentConsoleViewer(clear_screen=True, wait_time=0.1)
 env.set_viewer(viewer)
 
 env.reset()
-
 while True:
     agent.step()
     env.step()

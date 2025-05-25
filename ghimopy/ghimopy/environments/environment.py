@@ -13,10 +13,6 @@ class Environment:
         self.viewer = viewer
 
     def step(self) -> None:
-        # the derived classes should always call the super().step()
-        # *before* changing the state, so that it can show
-        # the state and the action that the agent wants to perform
-        # in that state, *before* the state changes
         if self.viewer:
             self.viewer.render()
 

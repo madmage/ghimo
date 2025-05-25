@@ -37,7 +37,6 @@ actions, and the environment is responsible to keep track of the changes in its
 state.
 
 In pseudo-Python code, every experiment will have this structure:
-
 ```python
 env = AnEnvironment()
 agent = AnAgent()
@@ -53,9 +52,20 @@ where the step of the agent is something like:
 ```python
 class AnAgent:
   def step(self):
-    obs = self.env_interface.get_observation()
+    obs = self.interface.observe()
     act = self.compute_action(obs)
-    self.env_interface.set_agent_action(act)
+    self.interface.act(act)
 ```
 
+In more advanced experiments, the environment is an external process, a simulator,
+or even a real robot. In that case, the Python code does not take care of running it
+and the code simplifies to:
+```python
+simulator_connection = ...
 
+agent = AnAgent()
+interface = AnInterface(simulator, agent)
+
+while not experiment_finished():
+  agent.step()
+```

@@ -11,11 +11,11 @@ class GridEnvironmentAStarAgent(Agent):
         self.planner = AStarPlanner()
 
     def step(self):
-        obs = self.interface.get_observation()
+        obs = self.interface.observe()
         self.planner.set_map(obs["map"])
         path = self.planner.plan(obs["agent_position"], obs["goal"])
         act = self._compute_action(path)
-        self.interface.set_action(act)
+        self.interface.act(act)
         self.interface.set_agent_info({
             "path": path,
             "goal": obs["goal"],
@@ -175,7 +175,6 @@ viewer = GridEnvironmentConsoleViewer(clear_screen=False, wait_time=1.0)
 env.set_viewer(viewer)
 
 env.reset()
-
 while True:
     agent.step()
     env.step()

@@ -7,9 +7,9 @@ from ghimopy.agents.agent import Agent
 
 class GridEnvironmentGreedyAgent(Agent):
     def step(self):
-        obs = self.interface.get_observation()
+        obs = self.interface.observe()
         act = self._compute_action(obs)
-        self.interface.set_action(act)
+        self.interface.act(act)
 
     def _compute_action(self, obs):
         agent_position = obs["agent_position"]
@@ -39,7 +39,6 @@ viewer = GridEnvironmentConsoleViewer(clear_screen=False, wait_time=1.0)
 env.set_viewer(viewer)
 
 env.reset()
-
 while True:
     agent.step()
     env.step()

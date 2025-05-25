@@ -7,9 +7,9 @@ class EnvironmentBlindAgentInterface(EnvironmentAgentInterface):
         self.environment = environment
         self.agent = agent
 
-    def set_action(self, action):
+    def act(self, action):
         self.environment.agents[self.agent.name]["action"] = action
 
-    def get_observation(self):
+    def observe(self):
         return None
 

@@ -58,7 +58,7 @@ class TwoLinksArmPlanarAgent(Agent):
 
     def step(self):
         super().step()
-        self.interface.set_action([0.1, 0.1])
+        self.interface.act([0.1, 0.1])
 
 
 env = TwoLinksPlanarArmEnvironment()
@@ -71,7 +71,6 @@ viewer = TwoLinksPlanarArmMplViewer(10.0, 10.0)
 env.set_viewer(viewer)
 
 env.reset()
-
 while not env.viewer.exit_requested:
     agent.step()
     env.step()

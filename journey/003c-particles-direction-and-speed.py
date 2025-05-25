@@ -9,10 +9,10 @@ from ghimopy.agents.agent import Agent
 
 
 class ParticlesDirectionAndSpeedInterface(EnvironmentBlindAgentInterface):
-    def set_action(self, action):
+    def act(self, action):
         self.environment.agents[self.agent.name]["action"] = [action[0] * math.cos(action[1]), action[0] * math.sin(action[1])]
 
-    def get_observation(self):
+    def observe(self):
         agent = self.environment.agents[self.agent.name]
         min_dist = None
         min_agent = None
@@ -37,9 +37,9 @@ class ParticleAgent(Agent):
         return a * (-1 if dist > 0 else 1)
 
     def step(self):
-        obs = self.interface.get_observation()
+        obs = self.interface.observe()
         act = self._compute_action(obs)
-        self.interface.set_action(act)
+        self.interface.act(act)
 
     def _compute_action(self, obs):
         speed = self._dist_to_act(obs[0])
@@ -59,7 +59,6 @@ viewer = ParticlesMplViewer(width=env.width, height=env.height)
 env.set_viewer(viewer)
 
 env.reset()
-
 while not env.viewer.exit_requested:
     for agent in env.get_agents():
         agent.step()

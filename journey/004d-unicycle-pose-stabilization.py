@@ -20,9 +20,9 @@ def polar_coordinates_ctrl(rho, gamma, delta, k1=1.0, k2=3.0, k3=2.0):
 
 class UnicycleControlLawAgent(Agent):
     def step(self):
-        rho, gamma, delta = self.interface.get_observation()
+        rho, gamma, delta = self.interface.observe()
         v, w = polar_coordinates_ctrl(rho, gamma, delta)
-        self.interface.set_action((v, w))
+        self.interface.act((v, w))
 
 
 class UnicycleEnvironmentLocalInterface(EnvironmentAgentInterface):
@@ -30,10 +30,10 @@ class UnicycleEnvironmentLocalInterface(EnvironmentAgentInterface):
         self.environment = environment
         self.agent = agent
 
-    def set_action(self, action):
+    def act(self, action):
         self.environment.agents[self.agent.name]["action"] = action
 
-    def get_observation(self):
+    def observe(self):
         goal = self.environment.agents[self.agent.name]["goal"]
         pose = self.environment.agents[self.agent.name]["state"]
         return (
@@ -54,7 +54,6 @@ viewer = UnicyclesMplViewer(10.0, 10.0)
 env.set_viewer(viewer)
 
 env.reset()
-
 while not env.viewer.exit_requested:
     agent.step()
     env.step()

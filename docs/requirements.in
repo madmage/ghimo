@@ -3,3 +3,4 @@ mkdocstrings[python]
 mkdocs-kroki-plugin
 mkdocs-mermaid2-plugin
 markdown-include
+mkdocs-material

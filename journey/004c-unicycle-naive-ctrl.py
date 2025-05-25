@@ -11,12 +11,12 @@ from ghimopy.geometry2d import angle_diff
 
 class UnicycleAgent(Agent):
     def step(self):
-        obs = self.interface.get_observation()
+        obs = self.interface.observe()
         if obs is None:
             act = (random.random() * 0.5, (random.random() - 0.5) * 2.0)
         else:
             act = (0.2, obs[1] * 0.2)
-        self.interface.set_action(act)
+        self.interface.act(act)
 
 
 class UnicycleEnvironmentLocalInterface(EnvironmentAgentInterface):
@@ -24,10 +24,10 @@ class UnicycleEnvironmentLocalInterface(EnvironmentAgentInterface):
         self.environment = environment
         self.agent = agent
 
-    def set_action(self, action):
+    def act(self, action):
         self.environment.agents[self.agent.name]["action"] = action
 
-    def get_observation(self):
+    def observe(self):
         goal = self.environment.agents[self.agent.name]["goal"]
         pose = self.environment.agents[self.agent.name]["state"]
         return (
@@ -47,7 +47,6 @@ viewer = UnicyclesMplViewer(10.0, 10.0)
 env.set_viewer(viewer)
 
 env.reset()
-
 while not env.viewer.exit_requested:
     agent.step()
     env.step()

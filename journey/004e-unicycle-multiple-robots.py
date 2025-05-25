@@ -12,9 +12,9 @@ from ghimopy.control2d import polar_coordinates_ctrl
 
 class UnicycleControlLawAgent(Agent):
     def step(self):
-        rho, gamma, delta = self.interface.get_observation()
+        rho, gamma, delta = self.interface.observe()
         v, w = polar_coordinates_ctrl(rho, gamma, delta, self.definition["k1"], self.definition["k2"], self.definition["k3"])
-        self.interface.set_action((v, w))
+        self.interface.act((v, w))
 
 
 class UnicycleEnvironmentLocalInterface(EnvironmentAgentInterface):
@@ -22,10 +22,10 @@ class UnicycleEnvironmentLocalInterface(EnvironmentAgentInterface):
         self.environment = environment
         self.agent = agent
 
-    def set_action(self, action):
+    def act(self, action):
         self.environment.agents[self.agent.name]["action"] = action
 
-    def get_observation(self):
+    def observe(self):
         goal = self.environment.agents[self.agent.name]["goal"]
         pose = self.environment.agents[self.agent.name]["state"]
         return (
@@ -52,7 +52,6 @@ viewer = UnicyclesMplViewer(10.0, 10.0)
 env.set_viewer(viewer)
 
 env.reset()
-
 while not env.viewer.exit_requested:
     for agent in env.get_agents():
         agent.step()

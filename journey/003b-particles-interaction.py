@@ -9,7 +9,7 @@ from ghimopy.agents.agent import Agent
 
 
 class ParticlesClosestDistanceInterface(EnvironmentBlindAgentInterface):
-    def get_observation(self):
+    def observe(self):
         agent = self.environment.agents[self.agent.name]
         min_dist = None
         min_agent = None
@@ -33,9 +33,9 @@ class ParticleAgent(Agent):
         return a * (-1 if dist > 0 else 1)
 
     def step(self):
-        obs = self.interface.get_observation()
+        obs = self.interface.observe()
         act = self._compute_action(obs)
-        self.interface.set_action(act)
+        self.interface.act(act)
 
     def _compute_action(self, obs):
         noise = [random.uniform(-1.0, 1.0), random.uniform(-1.0, 1.0)]
@@ -58,7 +58,6 @@ viewer = ParticlesMplViewer(width=env.width, height=env.height)
 env.set_viewer(viewer)
 
 env.reset()
-
 while not env.viewer.exit_requested:
     for agent in env.get_agents():
         agent.step()

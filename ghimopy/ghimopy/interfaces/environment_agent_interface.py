@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 from ghimopy.environments.environment import Environment
 from ghimopy.agents.agent import Agent
 
+
 class EnvironmentAgentInterface(ABC):
     @classmethod
     def link(cls, environment: Environment, agent: Agent) -> None:
@@ -13,9 +14,9 @@ class EnvironmentAgentInterface(ABC):
         self.agent = agent
 
     @abstractmethod
-    def set_action(self, action) -> None:
+    def act(self, action) -> None:
         pass
 
     @abstractmethod
-    def get_observation(self):
+    def observe(self):
         return None

@@ -50,6 +50,7 @@ mkdocs-autorefs==0.4.1
 mkdocs-kroki-plugin==0.6.1
     # via -r docs/requirements.in
 mkdocs-mermaid2-plugin
+mkdocs-material
 mkdocstrings[python]==0.19.0
     # via
     #   -r docs/requirements.in

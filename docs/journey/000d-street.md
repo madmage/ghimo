@@ -27,7 +27,7 @@ P3 -- ring the bell --> home
 We can then inherit from the basic classes to have the concrete classes for the
 street environment:
 
-```py linenums="69" title="000b-street.py"
---8<-- "journey/000b-street.py:69:123"
+```py linenums="68" title="000c-street.py"
+--8<-- "journey/000c-street.py:68:123"
 ```
 

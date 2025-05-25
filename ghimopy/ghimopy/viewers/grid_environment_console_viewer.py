@@ -3,7 +3,9 @@ from ghimopy.viewers.viewer import Viewer
 
 
 class GridEnvironmentConsoleViewer(Viewer):
-    def __init__(self, wait_time=0.0, clear_screen=False):
+    def __init__(self, wait_time=0.0, clear_screen=False, config=None):
+        config = config or {}
+        self.config = {"agent_identifier": "A", **config}
         self.wait_time = wait_time
         self.clear_screen = clear_screen
 
@@ -16,7 +18,7 @@ class GridEnvironmentConsoleViewer(Viewer):
                 draw_cell = True
                 for agent_name, agent in self.environment.agents.items():
                     if agent["state"][0] == x and agent["state"][1] == y:
-                        print("\033[1;96;44mL\033[0m", end="")
+                        print("\033[1;96;44m" + self.config["agent_identifier"] + "\033[0m", end="")
                         draw_cell=False
                         break
                     if agent.get("info", None) and agent["info"].get("goal", None) and [x, y] == agent["info"]["goal"]:

@@ -17,7 +17,6 @@ viewer = GridEnvironmentConsoleViewer(clear_screen=True, wait_time=0.1)
 env.set_viewer(viewer)
 
 env.reset()
-
 while True:
     agent.step()
     env.step()

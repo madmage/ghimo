@@ -2,14 +2,14 @@ from ghimopy.interfaces.environment_agent_interface import EnvironmentAgentInter
 
 
 class GridEnvironmentFullInfoInterface(EnvironmentAgentInterface):
-    def get_observation(self):
+    def observe(self):
         return {
             "map": self.environment.cells,
             "agent_position": self.environment.agents[self.agent.name]["state"],
             "goal": self.environment.agents[self.agent.name]["goal"]
         }
 
-    def set_action(self, action):
+    def act(self, action):
         self.environment.agents[self.agent.name]["action"] = action
 
     def set_agent_info(self, agent_info):

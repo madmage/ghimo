@@ -27,7 +27,7 @@ class UnicycleEnvironment(Environment):
 class RandomUnicycleAgent(Agent):
     def step(self):
         act = (random.random() * 0.5, (random.random() - 0.5) * 2.0)
-        self.interface.set_action(act)
+        self.interface.act(act)
 
 
 env = UnicycleEnvironment()
@@ -40,7 +40,6 @@ viewer = UnicyclesMplViewer(10.0, 10.0)
 env.set_viewer(viewer)
 
 env.reset()
-
 while not env.viewer.exit_requested:
     agent.step()
     env.step()
