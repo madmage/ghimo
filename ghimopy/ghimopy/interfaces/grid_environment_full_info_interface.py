@@ -1,7 +1,7 @@
-from ghimopy.interfaces.environment_agent_interface import EnvironmentAgentInterface
+from ghimopy.interfaces.simple_environment_agent_interface import SimpleEnvironmentAgentInterface
 
 
-class GridEnvironmentFullInfoInterface(EnvironmentAgentInterface):
+class GridEnvironmentFullInfoInterface(SimpleEnvironmentAgentInterface):
     def observe(self):
         return {
             "map": self.environment.cells,

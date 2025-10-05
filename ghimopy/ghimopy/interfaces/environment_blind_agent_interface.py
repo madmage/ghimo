@@ -1,7 +1,7 @@
-from ghimopy.interfaces.environment_agent_interface import EnvironmentAgentInterface
+from ghimopy.interfaces.simple_environment_agent_interface import SimpleEnvironmentAgentInterface
 
 
-class EnvironmentBlindAgentInterface(EnvironmentAgentInterface):
+class EnvironmentBlindAgentInterface(SimpleEnvironmentAgentInterface):
     def __init__(self, environment, agent):
         super().__init__(environment, agent)
         self.environment = environment

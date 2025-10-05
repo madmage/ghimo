@@ -11,7 +11,8 @@ env.random_definition(ENV_WIDTH, ENV_HEIGHT, obstacle_probability=0.1)
 
 agent = GridEnvironmentRandomAgent("agent1")
 env.add_agent(agent)
-EnvironmentBlindAgentInterface.link(env, agent)
+
+agent.set_interface(EnvironmentBlindAgentInterface(env, agent))
 
 viewer = GridEnvironmentConsoleViewer(clear_screen=True, wait_time=0.1)
 env.set_viewer(viewer)
@@ -19,4 +20,5 @@ env.set_viewer(viewer)
 env.reset()
 while True:
     agent.step()
+    env.render()
     env.step()

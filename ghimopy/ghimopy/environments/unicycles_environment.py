@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 import math
 
-from ghimopy.environments.environment import Environment
+from ghimopy.environments.simple_environment import SimpleEnvironment
 
 # in a UnicyclesEnvironment:
 # - a state is a list [x, y, theta], where theta is the orientation of the unicycle
 # - an action is a list [speed, job]
 # - a goal is like a state
-class UnicyclesEnvironment(Environment):
+class UnicyclesEnvironment(SimpleEnvironment):
     def set_agent_goal(self, agent_name, goal):
         self.agents[agent_name]["goal"] = goal
 

@@ -4,26 +4,26 @@ import time
 import copy
 
 
-class Environment:
+class SimpleEnvironment:
     def __init__(self):
         self.agents = {}
         self.viewer = None
 
-    def set_viewer(self, viewer):
+    def set_viewer(self, viewer) -> None:
         viewer.set_environment(self)
         self.viewer = viewer
 
-    def add_agent(self, agent):
+    def add_agent(self, agent) -> None:
         self.agents[agent.name] = agent
 
-    def render(self):
+    def render(self) -> None:
         if self.viewer:
             self.viewer.render()
 
-    def step(self):
+    def step(self) -> None:
         pass
 
-    def reset(self):
+    def reset(self) -> None:
         pass
 
 
@@ -33,7 +33,10 @@ class Agent:
         self.definition = definition
         self.interface = None
 
-    def step(self):
+    def set_interface(self, interface) -> None:
+        self.interface = interface
+
+    def step(self) -> None:
         pass
 
 
@@ -41,22 +44,16 @@ class Viewer:
     def __init__(self):
         self.environment = None
 
-    def set_environment(self, environment):
+    def set_environment(self, environment) -> None:
         self.environment = environment
 
-    def render(self):
+    def render(self) -> None:
         pass
 
 
-class EnvironmentAgentInterface:
-    @classmethod
-    def link(cls, environment: Environment, agent: Agent) -> None:
-        interface = cls(environment, agent)
-        interface.agent.interface = interface
-
-    def __init__(self, environment: Environment = None, agent: Agent = None):
+class SimpleEnvironmentAgentInterface:
+    def __init__(self, environment: SimpleEnvironment):
         self.environment = environment
-        self.agent = agent
 
     def observe(self):
         pass
@@ -65,7 +62,7 @@ class EnvironmentAgentInterface:
         pass
 
 
-class StreetEnvironment(Environment):
+class StreetEnvironment(SimpleEnvironment):
     def __init__(self):
         super().__init__()
         self.home = 7
@@ -96,20 +93,24 @@ class StreetEnvironmentConsoleViewer(Viewer):
 
     def render(self):
         for agent_name, agent in self.environment.agents.items():
-            print(f"Agent {agent_name} is in place {agent['state'][0]}, home is in place {self.environment.home}, agent choose as action {agent['action'][0]}")
+            print(f"Agent {agent_name} is in place {agent['state'][0]}, home is in place {self.environment.home}, agent chooses '{agent['action'][0]}' as action")
         print("")
         time.sleep(self.wait_time)
 
 
-class StreetEnvironmentAgentInterface(EnvironmentAgentInterface):
+class StreetEnvironmentBlindAgentInterface(SimpleEnvironmentAgentInterface):
+    def __init__(self, environment: SimpleEnvironment, agent_name: str):
+        super().__init__(environment)
+        self.agent_name = agent_name
+
     def observe(self):
-        return ["home"] if self.environment.agents[agent.name]["state"][0] == self.environment.home else ["street"]
+        return ["home"] if self.environment.agents[self.agent_name]["state"][0] == self.environment.home else ["street"]
 
     def act(self, action):
-        self.environment.agents[agent.name]["action"] = action
+        self.environment.agents[self.agent_name]["action"] = action
 
 
-class StreetEnvironmentAgent(Agent):
+class StreetEnvironmentRandomAgent(Agent):
     def step(self):
         obs = self.interface.observe()
         act = self._compute_action(obs)
@@ -124,9 +125,10 @@ class StreetEnvironmentAgent(Agent):
 
 env = StreetEnvironment()
 
-agent = StreetEnvironmentAgent("agent1")
+agent = StreetEnvironmentRandomAgent("agent1")
 env.add_agent(agent)
-StreetEnvironmentAgentInterface.link(env, agent)
+
+agent.set_interface(StreetEnvironmentBlindAgentInterface(env, "agent1"))
 
 viewer = StreetEnvironmentConsoleViewer(wait_time=0.5)
 env.set_viewer(viewer)

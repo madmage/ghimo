@@ -1,14 +1,14 @@
 import random
 import copy
 
-from ghimopy.environments.environment import Environment
+from ghimopy.environments.simple_environment import SimpleEnvironment
 from ghimopy.agents.agent import Agent
 
 # in a GridEnvironment:
 # - a state is a list [x, y]
 # - an action is a list [dx, dy] where dx and dy can be 0, -1 or 1
 # - a goal is like a state
-class GridEnvironment(Environment):
+class GridEnvironment(SimpleEnvironment):
     def __init__(self):
         super().__init__()
 

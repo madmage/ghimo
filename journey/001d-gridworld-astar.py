@@ -169,7 +169,8 @@ env.random_definition(ENV_WIDTH, ENV_HEIGHT, obstacle_probability=0.1)
 agent = GridEnvironmentAStarAgent("agent1")
 env.add_agent(agent)
 env.set_agent_goal("agent1", [int(ENV_WIDTH / 2), int(ENV_HEIGHT / 2)])
-GridEnvironmentFullInfoInterface.link(env, agent)
+
+agent.set_interface(GridEnvironmentFullInfoInterface(env, agent))
 
 viewer = GridEnvironmentConsoleViewer(clear_screen=False, wait_time=1.0)
 env.set_viewer(viewer)
@@ -177,4 +178,5 @@ env.set_viewer(viewer)
 env.reset()
 while True:
     agent.step()
+    env.render()
     env.step()

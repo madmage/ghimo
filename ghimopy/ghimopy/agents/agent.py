@@ -10,3 +10,6 @@ class Agent(ABC):
     @abstractmethod
     def step(self):
         pass
+
+    def set_interface(self, interface):
+        self.interface = interface

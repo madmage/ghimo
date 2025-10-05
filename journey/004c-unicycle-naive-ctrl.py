@@ -4,7 +4,7 @@ import random
 
 from ghimopy.environments.unicycles_environment import UnicyclesEnvironment
 from ghimopy.agents.agent import Agent
-from ghimopy.interfaces.environment_agent_interface import EnvironmentAgentInterface
+from ghimopy.interfaces.simple_environment_agent_interface import SimpleEnvironmentAgentInterface
 from ghimopy.viewers.unicycles_mpl_viewer import UnicyclesMplViewer
 from ghimopy.geometry2d import angle_diff
 
@@ -19,7 +19,7 @@ class UnicycleAgent(Agent):
         self.interface.act(act)
 
 
-class UnicycleEnvironmentLocalInterface(EnvironmentAgentInterface):
+class UnicycleEnvironmentLocalInterface(SimpleEnvironmentAgentInterface):
     def __init__(self, environment, agent):
         self.environment = environment
         self.agent = agent
@@ -49,4 +49,5 @@ env.set_viewer(viewer)
 env.reset()
 while not env.viewer.exit_requested:
     agent.step()
+    env.render()
     env.step()

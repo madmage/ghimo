@@ -2,14 +2,14 @@
 import random
 import time
 import copy
-from ghimopy.environments.environment import Environment
+from ghimopy.environments.simple_environment import SimpleEnvironment
 
 from ghimopy.agents.agent import Agent
 from ghimopy.viewers.viewer import Viewer
-from ghimopy.interfaces.environment_agent_interface import EnvironmentAgentInterface
+from ghimopy.interfaces.simple_environment_agent_interface import SimpleEnvironmentAgentInterface
 
 
-class GridEnvironment(Environment):
+class GridEnvironment(SimpleEnvironment):
     def __init__(self):
         super().__init__()
 
@@ -24,6 +24,9 @@ class GridEnvironment(Environment):
     def add_agent(self, agent):
         super().add_agent(agent)
         self.agents[agent.name]["initial_state"] = [random.randint(0, self.width - 1), random.randint(0, self.height - 1)]
+
+    def reset(self):
+        super().reset()
 
     def step(self):
         super().step()
@@ -67,8 +70,8 @@ class GridEnvironmentConsoleViewer(Viewer):
         time.sleep(self.wait_time)
 
 
-class EnvironmentBlindAgentInterface(EnvironmentAgentInterface):
-    def __init__(self, environment: Environment, agent: Agent):
+class EnvironmentBlindAgentInterface(SimpleEnvironmentAgentInterface):
+    def __init__(self, environment: SimpleEnvironment, agent: Agent):
         self.environment = environment
         self.agent = agent
 
@@ -96,7 +99,8 @@ env.random_definition(ENV_WIDTH, ENV_HEIGHT, obstacle_probability=0.1)
 
 agent = GridEnvironmentRandomAgent("agent1")
 env.add_agent(agent)
-EnvironmentBlindAgentInterface.link(env, agent)
+
+agent.set_interface(EnvironmentBlindAgentInterface(env, agent))
 
 viewer = GridEnvironmentConsoleViewer(clear_screen=True, wait_time=0.1)
 env.set_viewer(viewer)
@@ -104,4 +108,5 @@ env.set_viewer(viewer)
 env.reset()
 while True:
     agent.step()
+    env.render()
     env.step()

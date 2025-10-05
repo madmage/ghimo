@@ -1,9 +1,10 @@
 import copy
+from abc import ABC, abstractmethod
 
 from ghimopy.agents.agent import Agent
 
 
-class Environment:
+class SimpleEnvironment(ABC):
     def __init__(self):
         self.agents = {}
         self.viewer = None
@@ -12,7 +13,11 @@ class Environment:
         viewer.set_environment(self)
         self.viewer = viewer
 
+    @abstractmethod
     def step(self) -> None:
+        pass
+
+    def render(self) -> None:
         if self.viewer:
             self.viewer.render()
 

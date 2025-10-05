@@ -1,12 +1,12 @@
 import random
 
-from ghimopy.environments.environment import Environment
+from ghimopy.environments.simple_environment import SimpleEnvironment
 from ghimopy.agents.agent import Agent
 
 # in a ParticlesEnvironment:
 # - a state is a list [x, y] where x and y are arbitrary floats
 # - an action is a list [dx, dy] where dx and dy are arbitrary floats
-class ParticlesEnvironment(Environment):
+class ParticlesEnvironment(SimpleEnvironment):
     def __init__(self, width, height):
         super().__init__()
         self.width = width

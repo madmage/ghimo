@@ -2,13 +2,13 @@
 import math
 import random
 
-from ghimopy.environments.environment import Environment
+from ghimopy.environments.simple_environment import SimpleEnvironment
 from ghimopy.interfaces.environment_blind_agent_interface import EnvironmentBlindAgentInterface
 from ghimopy.viewers.particles_mpl_viewer import ParticlesMplViewer
 from ghimopy.agents.agent import Agent
 
 
-class ParticlesEnvironment(Environment):
+class ParticlesEnvironment(SimpleEnvironment):
     def __init__(self, width, height):
         super().__init__()
         self.width = width
@@ -54,5 +54,6 @@ env.reset()
 while not env.viewer.exit_requested:
     for agent in env.get_agents():
         agent.step()
-
+    
+    env.render()
     env.step()

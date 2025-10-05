@@ -41,4 +41,5 @@ env.set_viewer(viewer)
 env.reset()
 while True:
     agent.step()
+    env.render()
     env.step()

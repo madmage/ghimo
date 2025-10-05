@@ -57,4 +57,5 @@ while not env.viewer.exit_requested:
     for agent in env.get_agents():
         agent.step()
 
+    env.render()
     env.step()

@@ -2,7 +2,7 @@
 import math
 import random
 
-from ghimopy.environments.environment import Environment
+from ghimopy.environments.simple_environment import SimpleEnvironment
 from ghimopy.agents.agent import Agent
 from ghimopy.interfaces.environment_blind_agent_interface import EnvironmentBlindAgentInterface
 from ghimopy.viewers.unicycles_mpl_viewer import UnicyclesMplViewer
@@ -10,7 +10,7 @@ from ghimopy.viewers.unicycles_mpl_viewer import UnicyclesMplViewer
 # in a UnicyclesEnvironment:
 # - a state is a list [x, y, theta], where theta is the orientation of the unicycle
 # - an action is a list [speed, job]
-class UnicycleEnvironment(Environment):
+class UnicycleEnvironment(SimpleEnvironment):
     def step(self):
         super().step()
         dt = 0.1
@@ -42,4 +42,5 @@ env.set_viewer(viewer)
 env.reset()
 while not env.viewer.exit_requested:
     agent.step()
+    env.render()
     env.step()

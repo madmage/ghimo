@@ -1,7 +1,7 @@
 import math
 import matplotlib as mpl
 
-from ghimopy.environments.environment import Environment
+from ghimopy.environments.simple_environment import SimpleEnvironment
 from ghimopy.agents.agent import Agent
 from ghimopy.viewers.mpl_viewer import MplViewer
 from ghimopy.interfaces.environment_blind_agent_interface import EnvironmentBlindAgentInterface
@@ -17,7 +17,7 @@ class TwoLinksPlanarArmMplViewer(MplViewer):
         self._ax.add_line(mpl.lines.Line2D([link2_segment[0], link2_segment[2]], [link2_segment[1], link2_segment[3]]))
 
 
-class TwoLinksPlanarArmEnvironment(Environment):
+class TwoLinksPlanarArmEnvironment(SimpleEnvironment):
     def __init__(self):
         super().__init__()
         self.agent_name = None
@@ -73,4 +73,5 @@ env.set_viewer(viewer)
 env.reset()
 while not env.viewer.exit_requested:
     agent.step()
+    env.render()
     env.step()
